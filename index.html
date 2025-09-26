@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Rational Functions Study</title>
+  
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fafafa;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+    }
+    
+    .header {
+      background: #424242;
+      color: white;
+      padding: 30px;
+      border-radius: 12px 12px 0 0;
+      text-align: center;
+    }
+    
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      font-weight: 300;
+    }
+    
+    .content {
+      padding: 30px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 20px 0;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .card h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      border-bottom: 3px solid #3498db;
+      padding-bottom: 10px;
+    }
+    
+    .cheat-sheet {
+      background: #616161;
+      color: white;
+    }
+    
+    .cheat-sheet h2 {
+      color: white;
+      border-bottom-color: rgba(255,255,255,0.3);
+    }
+    
+    .cheat-sheet ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .cheat-sheet li {
+      margin: 15px 0;
+      padding: 15px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+    }
+    
+    .cheat-sheet strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1em;
+    }
+    
+    button {
+      background: #757575;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      margin: 5px;
+    }
+    
+    button:hover {
+      background: #616161;
+      transform: translateY(-1px);
+    }
+    
+    button.active {
+      background: #2196f3;
+    }
+    
+    .graph-container {
+      width: 100%;
+      height: 500px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      margin: 20px 0;
+      background: #fafafa;
+    }
+    
+    #graph {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+    }
+    
+    .problem-display {
+      background: #e3f2fd;
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.5em;
+      color: #1565c0;
+      margin: 20px 0;
+      border: 1px solid #bbdefb;
+    }
+    
+    .quiz-section {
+      background: #f0f0f0;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    
+    .quiz-question {
+      margin: 15px 0;
+      font-weight: 500;
+    }
+    
+    .answer-input {
+      width: 100%;
+      max-width: 300px;
+      padding: 10px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 16px;
+      margin: 8px 0;
+    }
+    
+    .answer-input.correct {
+      border-color: #4caf50;
+      background: #e8f5e8;
+    }
+    
+    .answer-input.incorrect {
+      border-color: #f44336;
+      background: #fde7e7;
+    }
+    
+    .feedback {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 500;
+      display: none;
+    }
+    
+    .feedback.correct {
+      background: #e8f5e8;
+      color: #2e7d32;
+      border: 1px solid #4caf50;
+      display: block;
+    }
+    
+    .feedback.incorrect {
+      background: #fde7e7;
+      color: #c62828;
+      border: 1px solid #f44336;
+      display: block;
+    }
+    
+    .steps {
+      background: #f8f9fa;
+      border-left: 4px solid #007bff;
+      padding: 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+      display: none;
+    }
+    
+    .reverse-mode-hint {
+      background: #fff3e0;
+      border: 1px solid #ffb74d;
+      border-radius: 6px;
+      padding: 15px;
+      margin: 15px 0;
+      color: #e65100;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Rational Functions — Interactive Study</h1>
+      <p>Master rational functions with step-by-step analysis and interactive graphing</p>
+    </div>
+    
+    <div class="content">
+      <div class="card cheat-sheet">
+        <h2>📚 Quick Reference Guide</h2>
+        
+        <strong>End Behavior (Horizontal/Oblique Asymptotes):</strong>
+        <ul>
+          <li>If $\deg(p(x)) < \deg(q(x))$: $y = 0$ is the horizontal asymptote</li>
+          <li>If $\deg(p(x)) = \deg(q(x))$: $y = \frac{a_n}{b_n}$ is the horizontal asymptote</li>
+          <li>If $\deg(p(x)) > \deg(q(x))$ by 1: Perform polynomial division for oblique asymptote</li>
+        </ul>
+        
+        <strong>Vertical Asymptotes:</strong>
+        <ul>
+          <li>Solve denominator $= 0$ (excluding holes)</li>
+          <li>Write limit statements: $\lim_{x \to c^-} f(x) = \pm\infty$, $\lim_{x \to c^+} f(x) = \pm\infty$</li>
+        </ul>
+        
+        <strong>Holes (Removable Discontinuities):</strong>
+        <ul>
+          <li>Factor and cancel common terms</li>
+          <li>Write: $\lim_{x \to c} f(x) = L$ where $L$ is finite</li>
+        </ul>
+        
+        <strong>Zeros:</strong>
+        <ul>
+          <li>Solve numerator $= 0$ (excluding cancelled terms)</li>
+        </ul>
+        
+        <strong>Polynomial Division:</strong>
+        <ul>
+          <li>$f(x) = \frac{p(x)}{q(x)} = Q(x) + \frac{R(x)}{q(x)}$</li>
+          <li>Oblique asymptote is $Q(x)$</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🎯 Practice Problem</h2>
+        
+        <div>
+          <strong>Study Mode:</strong>
+          <button onclick="setMode('analysis')" id="analysis-btn" class="active">Function Analysis</button>
+          <button onclick="setMode('reverse')" id="reverse-btn">Reverse Engineering</button>
+        </div>
+        
+        <div style="margin: 20px 0;">
+          <strong>Difficulty Level:</strong>
+          <button onclick="setDifficulty('easy')" id="easy-btn" class="active">Easy</button>
+          <button onclick="setDifficulty('medium')" id="medium-btn">Medium</button>
+          <button onclick="setDifficulty('hard')" id="hard-btn">Hard</button>
+        </div>
+        
+        <div id="analysis-mode">
+          <div class="problem-display" id="problem">
+            Click "New Problem" to start!
+          </div>
+          
+          <div class="quiz-section" id="quiz-section">
+            <h3>📝 Answer these questions about the function:</h3>
+            
+            <div class="quiz-question">
+              1. List all vertical asymptotes (e.g., "x=2, x=-3" or "none"):
+              <input type="text" class="answer-input" id="vertical-asymptotes" placeholder="x=2, x=-3">
+              <div class="feedback" id="va-feedback"></div>
+            </div>
+            
+            <div class="quiz-question">
+              2. What is the horizontal asymptote? (e.g., "y=0", "y=2", or "none"):
+              <input type="text" class="answer-input" id="horizontal-asymptote" placeholder="y=0">
+              <div class="feedback" id="ha-feedback"></div>
+            </div>
+            
+            <div class="quiz-question">
+              3. List all holes/removable discontinuities (e.g., "x=1" or "none"):
+              <input type="text" class="answer-input" id="holes" placeholder="x=1 or none">
+              <div class="feedback" id="holes-feedback"></div>
+            </div>
+            
+            <div class="quiz-question">
+              4. List all x-intercepts/zeros (e.g., "x=1, x=-2" or "none"):
+              <input type="text" class="answer-input" id="zeros" placeholder="x=1, x=-2">
+              <div class="feedback" id="zeros-feedback"></div>
+            </div>
+            
+            <div>
+              <button onclick="checkAnswers()">✓ Check My Answers</button>
+              <button onclick="clearAnswers()">🗑️ Clear</button>
+            </div>
+          </div>
+        </div>
+        
+        <div id="reverse-mode" style="display: none;">
+          <div class="reverse-mode-hint">
+            <strong>🔍 Reverse Engineering Challenge:</strong><br>
+            Look at the graph below and try to determine the rational function that produced it!
+          </div>
+          
+          <div class="quiz-section">
+            <div class="quiz-question">
+              Enter the function you think matches this graph:<br>
+              <small>Use format like: (x-1)(x+2)/(x-3)(x+4)</small>
+              <input type="text" class="answer-input" id="reverse-function" placeholder="(x-1)(x+2)/(x-3)">
+              <div class="feedback" id="reverse-feedback"></div>
+            </div>
+            
+            <div>
+              <button onclick="checkReverseAnswer()">✓ Check Function</button>
+              <button onclick="showReverseHint()">💡 Get Hint</button>
+            </div>
+            
+            <div id="reverse-hint" style="display: none;" class="feedback">
+              <strong>Hint:</strong> <span id="reverse-hint-text"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="graph-container">
+          <canvas id="graph"></canvas>
+        </div>
+        
+        <div>
+          <button onclick="newProblem()">🎲 New Problem</button>
+          <button onclick="showSteps()" id="show-steps-btn">📖 Show Solution Steps</button>
+          <button onclick="showHints()" id="show-hints-btn">💡 Show Hints</button>
+          <button onclick="toggleGrid()">⊞ Toggle Grid</button>
+        </div>
+        
+        <div id="hints" class="steps">
+          <h3>💡 Hints</h3>
+          <div id="hints-content"></div>
+        </div>
+        
+        <div id="steps" class="steps">
+          <h3>📖 Complete Solution</h3>
+          <div id="steps-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let currentProblem = null;
+    let canvas = null;
+    let ctx = null;
+    let difficulty = 'easy';
+    let showGrid = true;
+    let studyMode = 'analysis';
+    
+    // Difficulty settings
+    const difficultySettings = {
+      easy: { numDegree: [1, 2], denDegree: [1, 2], rootRange: 3, holeChance: 0.2 },
+      medium: { numDegree: [2, 3], denDegree: [2, 3], rootRange: 5, holeChance: 0.3 },
+      hard: { numDegree: [2, 3, 4], denDegree: [2, 3], rootRange: 6, holeChance: 0.4 }
+    };
+    
+    // Utility functions
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    function randomChoice(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+    
+    function factorToLatex(root) {
+      return root >= 0 ? `(x - ${root})` : `(x + ${-root})`;
+    }
+    
+    // Mode and difficulty functions
+    function setMode(mode) {
+      studyMode = mode;
+      document.querySelectorAll('#analysis-btn, #reverse-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(mode + '-btn').classList.add('active');
+      
+      document.getElementById('analysis-mode').style.display = mode === 'analysis' ? 'block' : 'none';
+      document.getElementById('reverse-mode').style.display = mode === 'reverse' ? 'block' : 'none';
+      document.getElementById('show-steps-btn').style.display = mode === 'analysis' ? 'inline-block' : 'none';
+      document.getElementById('show-hints-btn').style.display = mode === 'analysis' ? 'inline-block' : 'none';
+      
+      newProblem();
+    }
+    
+    function setDifficulty(level) {
+      difficulty = level;
+      document.querySelectorAll('#easy-btn, #medium-btn, #hard-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(level + '-btn').classList.add('active');
+      newProblem();
+    }
+    
+    // Problem generation
+    function generateProblem() {
+      const settings = difficultySettings[difficulty];
+      const numDegree = randomChoice(settings.numDegree);
+      const denDegree = randomChoice(settings.denDegree);
+      
+      let numRoots = [];
+      let denRoots = [];
+      
+      // Generate numerator roots
+      while (numRoots.length < numDegree) {
+        const root = randomInt(-settings.rootRange, settings.rootRange);
+        if (root !== 0 && !numRoots.includes(root)) {
+          numRoots.push(root);
+        }
+      }
+      
+      // Generate denominator roots
+      while (denRoots.length < denDegree) {
+        const root = randomInt(-settings.rootRange, settings.rootRange);
+        if (root !== 0 && !denRoots.includes(root) && !numRoots.includes(root)) {
+          denRoots.push(root);
+        }
+      }
+      
+      // Create hole
+      const hasHole = Math.random() < settings.holeChance;
+      let holeLocation = null;
+      if (hasHole && numRoots.length > 0) {
+        holeLocation = randomChoice(numRoots);
+        denRoots[randomInt(0, denRoots.length - 1)] = holeLocation;
+      }
+      
+      const numerator = x => numRoots.reduce((acc, r) => acc * (x - r), 1);
+      const denominator = x => denRoots.reduce((acc, r) => acc * (x - r), 1);
+      
+      const latexNum = numRoots.map(r => factorToLatex(r)).join('');
+      const latexDen = denRoots.map(r => factorToLatex(r)).join('');
+      
+      return {
+        text: `f(x) = \\frac{${latexNum}}{${latexDen}}`,
+        numerator, denominator, numRoots, denRoots,
+        hasHole, holeLocation, numDegree, denDegree
+      };
+    }
+    
+    // Canvas functions
+    function initCanvas() {
+      canvas = document.getElementById('graph');
+      ctx = canvas.getContext('2d');
+      const container = canvas.parentElement;
+      canvas.width = container.clientWidth - 4;
+      canvas.height = container.clientHeight - 4;
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.scale(1, -1);
+    }
+    
+    function clearCanvas() {
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
+    }
+    
+    function drawGrid() {
+      if (!showGrid) return;
+      ctx.save();
+      ctx.strokeStyle = '#e0e0e0';
+      ctx.lineWidth = 0.5;
+      const step = 20;
+      const width = canvas.width / 2;
+      const height = canvas.height / 2;
+      
+      for (let x = -width; x <= width; x += step) {
+        ctx.beginPath();
+        ctx.moveTo(x, -height);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      
+      for (let y = -height; y <= height; y += step) {
+        ctx.beginPath();
+        ctx.moveTo(-width, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    
+    function drawAxes() {
+      ctx.save();
+      ctx.strokeStyle = '#333';
+      ctx.lineWidth = 2;
+      const width = canvas.width / 2;
+      const height = canvas.height / 2;
+      
+      // Draw axes
+      ctx.beginPath();
+      ctx.moveTo(-width, 0);
+      ctx.lineTo(width, 0);
+      ctx.moveTo(0, -height);
+      ctx.lineTo(0, height);
+      ctx.stroke();
+      
+      // Add labels
+      ctx.fillStyle = '#333';
+      ctx.font = '12px Arial';
+      const scale = 20;
+      const xRange = Math.ceil(width / scale);
+      const yRange = Math.ceil(height / scale);
+      
+      for (let i = -xRange; i <= xRange; i += 2) {
+        if (i !== 0) {
+          const x = i * scale;
+          if (Math.abs(x) <= width) {
+            ctx.save();
+            ctx.scale(1, -1);
+            ctx.textAlign = 'center';
+            ctx.fillText(i.toString(), x, 15);
+            ctx.restore();
+          }
+        }
+      }
+      
+      for (let i = -yRange; i <= yRange; i += 2) {
+        if (i !== 0) {
+          const y = i * scale;
+          if (Math.abs(y) <= height) {
+            ctx.save();
+            ctx.scale(1, -1);
+            ctx.textAlign = 'right';
+            ctx.fillText(i.toString(), -5, -y);
+            ctx.restore();
+          }
+        }
+      }
+      ctx.restore();
+    }
+    
+    function performPolynomialDivision(problem) {
+      if (problem.numDegree !== problem.denDegree + 1) return null;
+      
+      const slope = 1;
+      const testX = 1000;
+      const actualY = problem.numerator(testX) / problem.denominator(testX);
+      const intercept = actualY - slope * testX;
+      
+      return { slope, intercept };
+    }
+    
+    function drawAsymptotes(problem) {
+      ctx.save();
+      ctx.strokeStyle = '#dc3545';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([5, 5]);
+      const scale = 20;
+      const width = canvas.width / 2;
+      const height = canvas.height / 2;
+      
+      // Vertical asymptotes (exclude holes completely)
+      const verticalAsymptotes = problem.denRoots.filter(r => 
+        !(problem.hasHole && r === problem.holeLocation)
+      );
+      
+      verticalAsymptotes.forEach(root => {
+        const x = root * scale;
+        if (Math.abs(x) <= width) {
+          ctx.beginPath();
+          ctx.moveTo(x, -height);
+          ctx.lineTo(x, height);
+          ctx.stroke();
+        }
+      });
+      
+      // Horizontal asymptote
+      if (problem.numDegree < problem.denDegree) {
+        ctx.beginPath();
+        ctx.moveTo(-width, 0);
+        ctx.lineTo(width, 0);
+        ctx.stroke();
+      } else if (problem.numDegree === problem.denDegree) {
+        const y = 1 * scale;
+        if (Math.abs(y) <= height) {
+          ctx.beginPath();
+          ctx.moveTo(-width, y);
+          ctx.lineTo(width, y);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+    
+    function drawObliqueAsymptote(problem) {
+      if (problem.numDegree !== problem.denDegree + 1) return;
+      
+      const asymptote = performPolynomialDivision(problem);
+      if (!asymptote) return;
+      
+      ctx.save();
+      ctx.strokeStyle = '#ff9800';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([8, 4]);
+      const scale = 20;
+      const width = canvas.width / 2;
+      
+      const leftX = -width / scale;
+      const rightX = width / scale;
+      const yLeft = asymptote.slope * leftX + asymptote.intercept;
+      const yRight = asymptote.slope * rightX + asymptote.intercept;
+      
+      ctx.beginPath();
+      ctx.moveTo(leftX * scale, yLeft * scale);
+      ctx.lineTo(rightX * scale, yRight * scale);
+      ctx.stroke();
+      ctx.restore();
+    }
+    
+    function drawHole(problem) {
+      if (!problem.holeLocation) return;
+      
+      ctx.save();
+      ctx.strokeStyle = '#28a745';
+      ctx.fillStyle = 'white';
+      ctx.lineWidth = 2;
+      const scale = 20;
+      const x = problem.holeLocation * scale;
+      
+      const simplifiedNum = problem.numRoots.filter(r => r !== problem.holeLocation);
+      const simplifiedDen = problem.denRoots.filter(r => r !== problem.holeLocation);
+      
+      const numValue = simplifiedNum.reduce((acc, r) => acc * (problem.holeLocation - r), 1);
+      const denValue = simplifiedDen.reduce((acc, r) => acc * (problem.holeLocation - r), 1);
+      
+      if (denValue !== 0) {
+        const y = (numValue / denValue) * scale;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    
+    function plotFunction(problem) {
+      ctx.save();
+      ctx.strokeStyle = '#007bff';
+      ctx.lineWidth = 2;
+      const scale = 20;
+      const step = 0.05;
+      const xRange = problem.numDegree === problem.denDegree + 1 ? 20 : 15;
+      const yLimit = problem.numDegree === problem.denDegree + 1 ? 40 : 25;
+      
+      let segments = [];
+      let currentSegment = [];
+      
+      for (let x = -xRange; x <= xRange; x += step) {
+        const denom = problem.denominator(x);
+        if (Math.abs(denom) < 0.001) {
+          if (currentSegment.length > 0) {
+            segments.push([...currentSegment]);
+            currentSegment = [];
+          }
+          continue;
+        }
+        
+        const y = problem.numerator(x) / denom;
+        if (Math.abs(y) > yLimit) {
+          if (currentSegment.length > 0) {
+            segments.push([...currentSegment]);
+            currentSegment = [];
+          }
+          continue;
+        }
+        
+        const screenX = x * scale;
+        const screenY = y * scale;
+        const width = canvas.width / 2;
+        const height = canvas.height / 2;
+        
+        if (Math.abs(screenX) <= width * 1.2 && Math.abs(screenY) <= height * 1.2) {
+          currentSegment.push({ x: screenX, y: screenY });
+        } else if (currentSegment.length > 0) {
+          segments.push([...currentSegment]);
+          currentSegment = [];
+        }
+      }
+      
+      if (currentSegment.length > 0) {
+        segments.push(currentSegment);
+      }
+      
+      segments.forEach(segment => {
+        if (segment.length < 2) return;
+        ctx.beginPath();
+        ctx.moveTo(segment[0].x, segment[0].y);
+        for (let i = 1; i < segment.length; i++) {
+          ctx.lineTo(segment[i].x, segment[i].y);
+        }
+        ctx.stroke();
+      });
+      
+      if (problem.numDegree === problem.denDegree + 1) {
+        drawObliqueAsymptote(problem);
+      }
+      drawAsymptotes(problem);
+      if (problem.hasHole && problem.holeLocation !== null) {
+        drawHole(problem);
+      }
+      ctx.restore();
+    }
+    
+    function drawGraph() {
+      clearCanvas();
+      drawGrid();
+      drawAxes();
+      if (currentProblem) {
+        plotFunction(currentProblem);
+      }
+    }
+    
+    function toggleGrid() {
+      showGrid = !showGrid;
+      drawGraph();
+    }
+    
+    // Quiz functions
+    function parseAnswerList(input) {
+      if (!input || input.toLowerCase().trim() === 'none') return [];
+      return input.split(',')
+        .map(item => item.trim())
+        .map(item => {
+          const match = item.match(/x\s*=\s*([+-]?\d+(?:\.\d+)?)/);
+          return match ? parseFloat(match[1]) : null;
+        })
+        .filter(num => num !== null)
+        .sort((a, b) => a - b);
+    }
+    
+    function parseHorizontalAsymptote(input) {
+      if (!input || input.toLowerCase().trim() === 'none') return null;
+      const match = input.match(/y\s*=\s*([+-]?\d+(?:\.\d+)?)/);
+      return match ? parseFloat(match[1]) : null;
+    }
+    
+    function arraysEqual(arr1, arr2) {
+      if (arr1.length !== arr2.length) return false;
+      return arr1.every((val, i) => Math.abs(val - arr2[i]) < 0.01);
+    }
+    
+    function checkAnswer(inputId, feedbackId, isCorrect, correctAnswer) {
+      const input = document.getElementById(inputId);
+      const feedback = document.getElementById(feedbackId);
+      
+      input.classList.remove('correct', 'incorrect');
+      feedback.classList.remove('correct', 'incorrect');
+      
+      if (isCorrect) {
+        input.classList.add('correct');
+        feedback.classList.add('correct');
+        feedback.textContent = '✓ Correct!';
+      } else {
+        input.classList.add('incorrect');
+        feedback.classList.add('incorrect');
+        feedback.textContent = `✗ Incorrect. The correct answer is: ${correctAnswer}`;
+      }
+    }
+    
+    function checkAnswers() {
+      if (!currentProblem) return;
+      
+      const userVA = parseAnswerList(document.getElementById('vertical-asymptotes').value);
+      const userHA = parseHorizontalAsymptote(document.getElementById('horizontal-asymptote').value);
+      const userHoles = parseAnswerList(document.getElementById('holes').value);
+      const userZeros = parseAnswerList(document.getElementById('zeros').value);
+      
+      // Calculate correct answers
+      const correctVA = currentProblem.denRoots.filter(r => 
+        !(currentProblem.hasHole && r === currentProblem.holeLocation)
+      ).sort((a, b) => a - b);
+      
+      let correctHA = null;
+      if (currentProblem.numDegree < currentProblem.denDegree) {
+        correctHA = 0;
+      } else if (currentProblem.numDegree === currentProblem.denDegree) {
+        correctHA = 1;
+      }
+      
+      const correctHoles = (currentProblem.hasHole && currentProblem.holeLocation !== null) 
+        ? [currentProblem.holeLocation] : [];
+      
+      const correctZeros = currentProblem.numRoots.filter(r => 
+        !(currentProblem.hasHole && r === currentProblem.holeLocation)
+      ).sort((a, b) => a - b);
+      
+      // Check each answer
+      checkAnswer('vertical-asymptotes', 'va-feedback', arraysEqual(userVA, correctVA), 
+        correctVA.length > 0 ? `x = ${correctVA.join(', x = ')}` : 'none');
+      
+      const haCorrect = (userHA === null && correctHA === null) || 
+                       (userHA !== null && correctHA !== null && Math.abs(userHA - correctHA) < 0.01);
+      checkAnswer('horizontal-asymptote', 'ha-feedback', haCorrect,
+        correctHA !== null ? `y = ${correctHA}` : 'none');
+      
+      checkAnswer('holes', 'holes-feedback', arraysEqual(userHoles, correctHoles),
+        correctHoles.length > 0 ? `x = ${correctHoles.join(', x = ')}` : 'none');
+      
+      checkAnswer('zeros', 'zeros-feedback', arraysEqual(userZeros, correctZeros),
+        correctZeros.length > 0 ? `x = ${correctZeros.join(', x = ')}` : 'none');
+    }
+    
+    function clearAnswers() {
+      const inputs = ['vertical-asymptotes', 'horizontal-asymptote', 'holes', 'zeros'];
+      const feedbacks = ['va-feedback', 'ha-feedback', 'holes-feedback', 'zeros-feedback'];
+      
+      inputs.forEach(id => {
+        const input = document.getElementById(id);
+        input.value = '';
+        input.classList.remove('correct', 'incorrect');
+      });
+      
+      feedbacks.forEach(id => {
+        const feedback = document.getElementById(id);
+        feedback.classList.remove('correct', 'incorrect');
+      });
+    }
+    
+    // Reverse mode functions
+    function parseUserFunction(input) {
+      try {
+        const parts = input.split('/');
+        if (parts.length !== 2) return null;
+        
+        const numRoots = extractRoots(parts[0].trim());
+        const denRoots = extractRoots(parts[1].trim());
+        
+        return { numRoots, denRoots };
+      } catch (e) {
+        return null;
+      }
+    }
+    
+    function extractRoots(factorStr) {
+      const roots = [];
+      const simpleFactors = factorStr.match(/\(x\s*([+-])\s*(\d+(?:\.\d+)?)\)/g);
+      if (simpleFactors) {
+        simpleFactors.forEach(factor => {
+          const match = factor.match(/\(x\s*([+-])\s*(\d+(?:\.\d+)?)\)/);
+          if (match) {
+            const sign = match[1] === '+' ? -1 : 1;
+            const value = parseFloat(match[2]);
+            roots.push(sign * value);
+          }
+        });
+      }
+      return roots.sort((a, b) => a - b);
+    }
+    
+    function checkReverseAnswer() {
+      if (!currentProblem) return;
+      
+      const userInput = document.getElementById('reverse-function').value.trim();
+      const parsed = parseUserFunction(userInput);
+      const feedback = document.getElementById('reverse-feedback');
+      const input = document.getElementById('reverse-function');
+      
+      input.classList.remove('correct', 'incorrect');
+      feedback.classList.remove('correct', 'incorrect');
+      
+      if (!parsed) {
+        input.classList.add('incorrect');
+        feedback.classList.add('incorrect');
+        feedback.textContent = '✗ Invalid format. Use format like: (x-1)(x+2)/(x-3)';
+        return;
+      }
+      
+      const numMatch = arraysEqual(parsed.numRoots.sort(), currentProblem.numRoots.sort());
+      const denMatch = arraysEqual(parsed.denRoots.sort(), currentProblem.denRoots.sort());
+      
+      if (numMatch && denMatch) {
+        input.classList.add('correct');
+        feedback.classList.add('correct');
+        feedback.textContent = '✓ Excellent! You correctly identified the function!';
+      } else {
+        input.classList.add('incorrect');
+        feedback.classList.add('incorrect');
+        let hint = '✗ Not quite right. ';
+        if (!numMatch) hint += 'Check your numerator factors. ';
+        if (!denMatch) hint += 'Check your denominator factors. ';
+        feedback.textContent = hint;
+      }
+    }
+    
+    function showReverseHint() {
+      if (!currentProblem) return;
+      
+      const hintDiv = document.getElementById('reverse-hint');
+      const hintText = document.getElementById('reverse-hint-text');
+      
+      let hint = '';
+      const va = currentProblem.denRoots.filter(r => 
+        !(currentProblem.hasHole && r === currentProblem.holeLocation)
+      );
+      const zeros = currentProblem.numRoots.filter(r => 
+        !(currentProblem.hasHole && r === currentProblem.holeLocation)
+      );
+      
+      if (va.length > 0) {
+        hint += `Look for vertical asymptotes at x = ${va.join(', x = ')}. `;
+      }
+      if (zeros.length > 0) {
+        hint += `The function crosses the x-axis at x = ${zeros.join(', x = ')}. `;
+      }
+      if (currentProblem.hasHole) {
+        hint += `There's a hole (removable discontinuity) in the graph. `;
+      }
+      
+      hintText.textContent = hint;
+      hintDiv.style.display = 'block';
+    }
+    
+    // Solution generation functions
+    function getSignNear(problem, point, direction) {
+      const delta = direction === 'left' ? -0.001 : 0.001;
+      const testVal = problem.numerator(point + delta) / problem.denominator(point + delta);
+      return testVal > 0 ? '+\\infty' : '-\\infty';
+    }
+    
+    function generateHints(problem) {
+      return [
+        "🔍 Start by factoring both the numerator and denominator",
+        "📊 Look for common factors that might create holes",
+        "📐 Compare the degrees of numerator and denominator for end behavior",
+        "⚠️ Find where the denominator equals zero for vertical asymptotes",
+        "🎯 Set the numerator equal to zero to find x-intercepts"
+      ];
+    }
+    
+    function generateSteps(problem) {
+      let steps = [];
+      
+      steps.push(`<strong>Step 1: Factored Form</strong><br>
+        Numerator: ${problem.numRoots.map(r => factorToLatex(r)).join('')}<br>
+        Denominator: ${problem.denRoots.map(r => factorToLatex(r)).join('')}`);
+      
+      if (problem.hasHole && problem.holeLocation !== null) {
+        const simplifiedNum = problem.numRoots.filter(r => r !== problem.holeLocation);
+        const simplifiedDen = problem.denRoots.filter(r => r !== problem.holeLocation);
+        const numValue = simplifiedNum.reduce((acc, r) => acc * (problem.holeLocation - r), 1);
+        const denValue = simplifiedDen.reduce((acc, r) => acc * (problem.holeLocation - r), 1);
+        const limitValue = denValue !== 0 ? (numValue / denValue).toFixed(2) : 'undefined';
+        
+        steps.push(`<strong>Step 2: Holes (Removable Discontinuities)</strong><br>
+          Common factor: $(x - ${problem.holeLocation})$<br>
+          Hole at $x = ${problem.holeLocation}$<br>
+          $\\lim_{x \\to ${problem.holeLocation}} f(x) = ${limitValue}$`);
+      } else {
+        steps.push(`<strong>Step 2: Holes</strong><br>No common factors found. No holes in this function.`);
+      }
+      
+      const zeros = problem.numRoots.filter(r => !(problem.hasHole && r === problem.holeLocation));
+      steps.push(`<strong>Step 3: Zeros (x-intercepts)</strong><br>
+        ${zeros.length > 0 ? `x-intercepts at: $x = ${zeros.join(', x = ')}$` : 'No x-intercepts'}`);
+      
+      const verticalAsymptotes = problem.denRoots.filter(r => !(problem.hasHole && r === problem.holeLocation));
+      if (verticalAsymptotes.length > 0) {
+        let vaText = `<strong>Step 4: Vertical Asymptotes</strong><br>`;
+        verticalAsymptotes.forEach(root => {
+          const leftLimit = getSignNear(problem, root, 'left');
+          const rightLimit = getSignNear(problem, root, 'right');
+          vaText += `At $x = ${root}$: $\\lim_{x \\to ${root}^-} f(x) = ${leftLimit}$, $\\lim_{x \\to ${root}^+} f(x) = ${rightLimit}$<br>`;
+        });
+        steps.push(vaText);
+      } else {
+        steps.push(`<strong>Step 4: Vertical Asymptotes</strong><br>No vertical asymptotes`);
+      }
+      
+      let endBehavior = `<strong>Step 5: End Behavior</strong><br>`;
+      if (problem.numDegree < problem.denDegree) {
+        endBehavior += `Degree of numerator (${problem.numDegree}) < degree of denominator (${problem.denDegree})<br>
+          Horizontal asymptote: $y = 0$`;
+      } else if (problem.numDegree === problem.denDegree) {
+        endBehavior += `Degree of numerator = degree of denominator (${problem.numDegree})<br>
+          Horizontal asymptote: $y = 1$ (ratio of leading coefficients)`;
+      } else if (problem.numDegree === problem.denDegree + 1) {
+        const asymptote = performPolynomialDivision(problem);
+        if (asymptote) {
+          const { slope, intercept } = asymptote;
+          const interceptStr = intercept >= 0 ? `+ ${intercept.toFixed(2)}` : `- ${Math.abs(intercept).toFixed(2)}`;
+          endBehavior += `Degree of numerator (${problem.numDegree}) = degree of denominator (${problem.denDegree}) + 1<br>
+            Oblique asymptote: $y = ${slope.toFixed(2)}x ${interceptStr}$<br>
+            <small>(Found using polynomial long division)</small>`;
+        }
+      } else {
+        endBehavior += `Degree of numerator (${problem.numDegree}) > degree of denominator (${problem.denDegree}) by more than 1<br>
+          Polynomial asymptote exists`;
+      }
+      steps.push(endBehavior);
+      
+      return steps;
+    }
+    
+    // Main UI functions
+    function newProblem() {
+      currentProblem = generateProblem();
+      
+      if (studyMode === 'analysis') {
+        document.getElementById('problem').innerHTML = `$${currentProblem.text}$`;
+        document.getElementById('quiz-section').style.display = 'block';
+        clearAnswers();
+      } else {
+        document.getElementById('problem').innerHTML = 'Study the graph below and determine the rational function:';
+        document.getElementById('reverse-function').value = '';
+        document.getElementById('reverse-feedback').classList.remove('correct', 'incorrect');
+        document.getElementById('reverse-function').classList.remove('correct', 'incorrect');
+        document.getElementById('reverse-hint').style.display = 'none';
+      }
+      
+      document.getElementById('steps').style.display = 'none';
+      document.getElementById('hints').style.display = 'none';
+      
+      drawGraph();
+      
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+    
+    function showHints() {
+      if (studyMode !== 'analysis') return;
+      
+      const hintsDiv = document.getElementById('hints');
+      const hintsContent = document.getElementById('hints-content');
+      
+      if (hintsDiv.style.display === 'none') {
+        const hints = generateHints(currentProblem);
+        hintsContent.innerHTML = '<ul>' + hints.map(hint => `<li>${hint}</li>`).join('') + '</ul>';
+        hintsDiv.style.display = 'block';
+      } else {
+        hintsDiv.style.display = 'none';
+      }
+    }
+    
+    function showSteps() {
+      if (studyMode !== 'analysis') return;
+      
+      const stepsDiv = document.getElementById('steps');
+      const stepsContent = document.getElementById('steps-content');
+      
+      if (stepsDiv.style.display === 'none') {
+        const steps = generateSteps(currentProblem);
+        stepsContent.innerHTML = steps.map(step => 
+          `<div style="margin: 15px 0; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">${step}</div>`
+        ).join('');
+        stepsDiv.style.display = 'block';
+        
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          MathJax.typesetPromise();
+        }
+      } else {
+        stepsDiv.style.display = 'none';
+      }
+    }
+    
+    function handleResize() {
+      if (canvas) {
+        const container = canvas.parentElement;
+        canvas.width = container.clientWidth - 4;
+        canvas.height = container.clientHeight - 4;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.scale(1, -1);
+        drawGraph();
+      }
+    }
+    
+    function init() {
+      initCanvas();
+      drawGraph();
+      window.addEventListener('resize', handleResize);
+      
+      if (window.MathJax) {
+        MathJax.startup.promise.then(() => {
+          newProblem();
+        });
+      } else {
+        setTimeout(newProblem, 1000);
+      }
+    }
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>
